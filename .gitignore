@@ -34,3 +34,5 @@
 # ignore all files in the following directory
 .vs/
 ModernCppPractice/Debug/
+ModernCppPractice/x64/Debug/
+x64/Debug/
