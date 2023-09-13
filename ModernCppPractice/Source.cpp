@@ -1,26 +1,24 @@
 #include <iostream>
-#include <memory>
+#include <thread>
+#include <string>
+#include <mutex>
 
-class MyBaseClass
-{
-public:
-	virtual void printmessage()
-	{
-		std::cout << "Hello from a base class.";
-	}
-};
+std::mutex m; // will guard std::cout
 
-class MyderivedClass : public MyBaseClass
+void myfunction(const std::string& param)
 {
-public:
-	void printmessage()
+	for (int i = 0; i < 10; i++)
 	{
-		std::cout << "Hello from a derived class.";
+		std::lock_guard<std::mutex> lg(m);
+		std::cout << "Executing function from a " << param << '\n';
 	}
-};
+}
 
 int main()
 {
-	std::unique_ptr<MyBaseClass> p = std::make_unique<MyderivedClass>();
-	p->printmessage();
+	std::thread t1{ myfunction, "Thread 1" };
+	std::thread t2{ myfunction, "Thread 2" };
+
+	t1.join();
+	t2.join();
 }
