@@ -1,22 +1,26 @@
 #include <iostream>
+#include <memory>
 
-class MyClass
+class MyBaseClass
 {
 public:
-	static int x; // declare a static data member
-	static void myfunction(); // declare a static member function
+	virtual void printmessage()
+	{
+		std::cout << "Hello from a base class.";
+	}
 };
 
-int MyClass::x = 123; // define a static data member
-// define a static member function
-void MyClass::myfunction()
+class MyderivedClass : public MyBaseClass
 {
-	std::cout << "Hello World from a static member function.";
-}
+public:
+	void printmessage()
+	{
+		std::cout << "Hello from a derived class.";
+	}
+};
 
 int main()
 {
-	MyClass::x = 456; // access a static data member
-	std::cout << "Static data member value is: " << MyClass::x <<"\n";
-	MyClass::myfunction(); // call a static member function
+	std::unique_ptr<MyBaseClass> p = std::make_unique<MyderivedClass>();
+	p->printmessage();
 }
