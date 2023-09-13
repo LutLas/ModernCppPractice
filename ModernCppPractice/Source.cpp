@@ -17,6 +17,6 @@ void MyClass::myfunction()
 int main()
 {
 	MyClass::x = 456; // access a static data member
-	std::cout << "Static data member value is: " << MyClass::x;
+	std::cout << "Static data member value is: " << MyClass::x <<"\n";
 	MyClass::myfunction(); // call a static member function
 }
