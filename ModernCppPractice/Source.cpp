@@ -1,24 +1,20 @@
-#include <iostream>
-#include <thread>
-#include <string>
-#include <mutex>
+﻿#include <cstdio>
 
-std::mutex m; // will guard std::cout
+struct RatThing {
+    static int rat_things_power; //➊
+        static/*➋*/ void power_up_rat_thing(int nuclear_isotopes) {
+        rat_things_power/*➌*/ = rat_things_power + nuclear_isotopes;
+        const auto waste_heat = rat_things_power * 20;
+        if (waste_heat > 10000) {
+            printf("Warning! Hot doggie!\n");
+        }
+        printf("Rat-thing power: %d\n", rat_things_power);
+    }
+};
 
-void myfunction(const std::string& param)
-{
-	for (int i = 0; i < 10; i++)
-	{
-		std::lock_guard<std::mutex> lg(m);
-		std::cout << "Executing function from a " << param << '\n';
-	}
-}
+int RatThing::rat_things_power = 200; //➍
 
-int main()
-{
-	std::thread t1{ myfunction, "Thread 1" };
-	std::thread t2{ myfunction, "Thread 2" };
-
-	t1.join();
-	t2.join();
+int main() {
+    RatThing::power_up_rat_thing(100); //➎
+        RatThing::power_up_rat_thing(500);
 }
